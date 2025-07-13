@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "../../components/lib/utils";
 import axiosInstance from "../../components/lib/axios";
+import OAuthSection from "./OAuthSection";
 
 export function SignupFormDemo({ onSwitchToLogin }) {
   const {
@@ -121,11 +122,7 @@ export function SignupFormDemo({ onSwitchToLogin }) {
 
         <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
-        <div className="mt-6 flex items-center justify-center space-x-6">
-          <OAuthButton Icon={IconBrandGithub} />
-          <OAuthButton Icon={IconBrandGoogle} />
-          <OAuthButton Icon={IconBrandFacebook} />
-        </div>
+        <OAuthSection />
       </form>
 
       <p className="mt-4 text-sm text-center text-neutral-600 dark:text-neutral-400">
@@ -158,13 +155,3 @@ const LabelInputContainer = ({ children, className }) => {
     </div>
   );
 };
-
-const OAuthButton = ({ Icon }) => (
-  <button
-    type="button"
-    aria-label="OAuth"
-    className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
-  >
-    <Icon className="h-6 w-6" />
-  </button>
-);

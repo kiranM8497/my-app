@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>XSS Demo</title>
+</head>
+<body>
+  <h2>Subscribe to Our Newsletter</h2>
+
+  <input type="text" id="input" placeholder="Enter your name" />
+  <button id="btn">Subscribe</button>
+
+  <div id="output" style="margin-top: 20px;"></div>
+
+  <script>
+    const input = document.getElementById("input");
+    const btn = document.getElementById("btn");
+    const output = document.getElementById("output");
+
+    btn.addEventListener("click", () => {
+      const value = input.value;
+      // ❌ This line makes the page vulnerable to XSS
+      output.innerHTML = `<p>Thank you, ${value}!</p>`;
+    });
+  </script>
+</body>
+</html>

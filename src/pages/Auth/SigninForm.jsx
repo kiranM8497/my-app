@@ -9,6 +9,7 @@ import {
   IconBrandFacebook,
 } from "@tabler/icons-react";
 import axiosInstance from "../../components/lib/axios";
+import OAuthSection from "./OAuthSection";
 
 export const SigninForm = ({ onSwitchToSignup }) => {
   const {
@@ -28,13 +29,19 @@ export const SigninForm = ({ onSwitchToSignup }) => {
   };
 
   return (
-    <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+    <div
+      className=" shadow-input mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md rounded-none sm:rounded-md md:rounded-2xl
+ bg-white p-4 sm:p-6 md:p-8 lg:p-10   dark:bg-black"
+    >
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
         Login to Confession Corner
       </h2>
 
-      <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
-        <LabelInputContainer className="mb-4">
+      <form
+        className="my-8 sm:my-12 md:my-14 "
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <LabelInputContainer className="mb-4 sm:mb-5 md:mb-6">
           <Label htmlFor="email">Email Address</Label>
           <Input
             id="email"
@@ -48,7 +55,9 @@ export const SigninForm = ({ onSwitchToSignup }) => {
             })}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm md:text-base">
+              {errors.email.message}
+            </p>
           )}
         </LabelInputContainer>
 
@@ -66,7 +75,7 @@ export const SigninForm = ({ onSwitchToSignup }) => {
           )}
         </LabelInputContainer>
 
-        <div className="text-right mb-6">
+        <div className="text-right mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base">
           <a
             href="#"
             className="text-sm text-indigo-500 hover:underline dark:text-indigo-400"
@@ -76,20 +85,16 @@ export const SigninForm = ({ onSwitchToSignup }) => {
         </div>
 
         <button
-          className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow dark:bg-zinc-800"
+          className="group/btn relative block h-10 sm:h-12 md:h-14 w-full text-sm sm:text-base md:text-lg rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow dark:bg-zinc-800"
           type="submit"
         >
           Sign in &rarr;
           <BottomGradient />
         </button>
 
-        <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+        <div className="my-6 sm:my-8 md:my-10 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
-        <div className="mt-6 flex items-center justify-center space-x-6">
-          <OAuthButton Icon={IconBrandGithub} />
-          <OAuthButton Icon={IconBrandGoogle} />
-          <OAuthButton Icon={IconBrandFacebook} />
-        </div>
+        <OAuthSection />
       </form>
 
       <p className="mt-4 text-sm text-center text-neutral-600 dark:text-neutral-400">
@@ -117,14 +122,4 @@ const LabelInputContainer = ({ children, className }) => (
   <div className={cn("flex w-full flex-col space-y-2", className)}>
     {children}
   </div>
-);
-
-const OAuthButton = ({ Icon }) => (
-  <button
-    type="button"
-    aria-label="OAuth"
-    className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
-  >
-    <Icon className="h-6 w-6" />
-  </button>
 );
