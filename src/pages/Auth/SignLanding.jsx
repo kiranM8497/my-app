@@ -39,7 +39,7 @@ const SignLanding = () => {
       </div>
 
       {/* === Foreground Content === */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
+      <div className="relative z-30 w-1/2 max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
         <div className="w-full md:w-full flex justify-center items-center py-12">
           {isLogin ? (
             <SigninForm onSwitchToSignup={() => setIsLogin(false)} />
