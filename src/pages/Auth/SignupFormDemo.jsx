@@ -6,19 +6,23 @@ import {
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandOnlyfans,
+  IconBrandFacebook,
 } from "@tabler/icons-react";
 import { cn } from "../../components/lib/utils";
 import axiosInstance from "../../components/lib/axios";
 
-export function SignupFormDemo() {
+export function SignupFormDemo({ onSwitchToLogin }) {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+
+  const password = watch("password");
+
   const onSubmit = async (data) => {
-    console.log("Form submitted", data);
+    console.log("Signup submitted", data);
     try {
       const response = await axiosInstance.post("/signup", data);
       console.log(response);
@@ -27,14 +31,11 @@ export function SignupFormDemo() {
     }
   };
 
-  const password = watch("password");
   return (
     <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
-      <div className="flex justify-center">
-        <h2 className="text-xl  font-bold text-neutral-800 dark:text-neutral-200">
-          Welcome to Confession Corner
-        </h2>
-      </div>
+      <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
+        Create an Account
+      </h2>
 
       <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
@@ -52,13 +53,14 @@ export function SignupFormDemo() {
             <Label htmlFor="lastname">Last name</Label>
             <Input
               id="lastname"
-              {...register("lastname", { required: "First name is required" })}
+              {...register("lastname", { required: "Last name is required" })}
             />
             {errors.lastname && (
               <p className="text-red-500 text-sm">{errors.lastname.message}</p>
             )}
           </LabelInputContainer>
         </div>
+
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
           <Input
@@ -75,11 +77,11 @@ export function SignupFormDemo() {
             <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </LabelInputContainer>
+
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
-            placeholder="••••••••"
             type="password"
             {...register("password", {
               required: "Password is required",
@@ -90,11 +92,11 @@ export function SignupFormDemo() {
             <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
         </LabelInputContainer>
+
         <LabelInputContainer className="mb-8">
           <Label htmlFor="confirmPassword">Confirm password</Label>
           <Input
             id="confirmPassword"
-            placeholder="••••••••"
             type="password"
             {...register("confirmPassword", {
               required: "Please confirm your password",
@@ -110,7 +112,7 @@ export function SignupFormDemo() {
         </LabelInputContainer>
 
         <button
-          className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+          className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow dark:bg-zinc-800"
           type="submit"
         >
           Sign up &rarr;
@@ -120,35 +122,22 @@ export function SignupFormDemo() {
         <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
         <div className="mt-6 flex items-center justify-center space-x-6">
-          <button
-            type="button"
-            className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
-            aria-label="Sign in with GitHub"
-          >
-            <IconBrandGithub className="h-6 w-6" />
-          </button>
-          <button
-            type="button"
-            className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
-            aria-label="Sign in with Google"
-          >
-            <IconBrandGoogle className="h-6 w-6" />
-          </button>
-          <button
-            type="button"
-            className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
-            aria-label="Sign in with Facebook"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 fill-current"
-              viewBox="0 0 24 24"
-            >
-              <path d="M22.676 0H1.326C.594 0 0 .593 0 1.326v21.348C0 23.407.594 24 1.326 24h11.483V14.708h-3.13v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.464.099 2.796.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.762v2.31h3.588l-.467 3.622h-3.121V24h6.116C23.406 24 24 23.407 24 22.674V1.326C24 .593 23.406 0 22.676 0z" />
-            </svg>
-          </button>
+          <OAuthButton Icon={IconBrandGithub} />
+          <OAuthButton Icon={IconBrandGoogle} />
+          <OAuthButton Icon={IconBrandFacebook} />
         </div>
       </form>
+
+      <p className="mt-4 text-sm text-center text-neutral-600 dark:text-neutral-400">
+        Already have an account?{" "}
+        <button
+          type="button"
+          className="text-indigo-500 hover:underline"
+          onClick={onSwitchToLogin}
+        >
+          Sign in
+        </button>
+      </p>
     </div>
   );
 }
@@ -169,3 +158,13 @@ const LabelInputContainer = ({ children, className }) => {
     </div>
   );
 };
+
+const OAuthButton = ({ Icon }) => (
+  <button
+    type="button"
+    aria-label="OAuth"
+    className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
+  >
+    <Icon className="h-6 w-6" />
+  </button>
+);

@@ -1,13 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import { cn } from "../lib/utils";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { cn } from "../../components/lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandFacebook,
 } from "@tabler/icons-react";
+import axiosInstance from "../../components/lib/axios";
 
 export const SigninForm = ({ onSwitchToSignup }) => {
   const {
@@ -16,9 +17,14 @@ export const SigninForm = ({ onSwitchToSignup }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Login submitted", data);
-    // Call backend login API here
+    try {
+      const response = await axiosInstance.post("/signin", data);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -80,9 +86,9 @@ export const SigninForm = ({ onSwitchToSignup }) => {
         <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
         <div className="mt-6 flex items-center justify-center space-x-6">
-          <OAuthButton Icon={IconBrandGithub} label="GitHub" />
-          <OAuthButton Icon={IconBrandGoogle} label="Google" />
-          <OAuthButton Icon={IconBrandFacebook} label="Facebook" />
+          <OAuthButton Icon={IconBrandGithub} />
+          <OAuthButton Icon={IconBrandGoogle} />
+          <OAuthButton Icon={IconBrandFacebook} />
         </div>
       </form>
 
@@ -113,10 +119,10 @@ const LabelInputContainer = ({ children, className }) => (
   </div>
 );
 
-const OAuthButton = ({ Icon, label }) => (
+const OAuthButton = ({ Icon }) => (
   <button
     type="button"
-    aria-label={`Sign in with ${label}`}
+    aria-label="OAuth"
     className="hover:scale-110 transition-transform text-neutral-800 dark:text-neutral-300"
   >
     <Icon className="h-6 w-6" />
