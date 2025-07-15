@@ -11,6 +11,8 @@ import {
 import { cn } from "../../components/lib/utils";
 import axiosInstance from "../../components/lib/axios";
 import OAuthSection from "./OAuthSection";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export function SignupFormDemo({ onSwitchToLogin }) {
   const {
@@ -19,7 +21,8 @@ export function SignupFormDemo({ onSwitchToLogin }) {
     watch,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
   const password = watch("password");
 
   const onSubmit = async (data) => {
@@ -27,6 +30,10 @@ export function SignupFormDemo({ onSwitchToLogin }) {
     try {
       const response = await axiosInstance.post("/signup", data);
       console.log(response);
+      if (response.data?.user) {
+        setUser(response.data.user); // 👈 updating context
+        navigate("/home"); // 👈 redirecting
+      }
     } catch (error) {
       console.error(error);
     }

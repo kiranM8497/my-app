@@ -3,13 +3,11 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { cn } from "../../components/lib/utils";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandFacebook,
-} from "@tabler/icons-react";
+
 import axiosInstance from "../../components/lib/axios";
 import OAuthSection from "./OAuthSection";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const SigninForm = ({ onSwitchToSignup }) => {
   const {
@@ -17,14 +15,21 @@ export const SigninForm = ({ onSwitchToSignup }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
   const onSubmit = async (data) => {
     console.log("Login submitted", data);
     try {
       const response = await axiosInstance.post("/signin", data);
-      console.log(response);
+      // console.log(response.data.user);
+
+      if (response.data?.user) {
+        setUser(response.data.user); // 👈 updating context
+        navigate("/home"); // 👈 redirecting
+      }
     } catch (error) {
       console.error(error);
+      alert("temporary messsge: password or email incorrect");
     }
   };
 
