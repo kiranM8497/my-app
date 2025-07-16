@@ -41,7 +41,7 @@ const SplashScreen = () => {
       {/* Fallback Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-black" />
       {/* Video Background */}
-      {!videoError && (
+      {/* {!videoError && (
         <video
           className="absolute inset-0 w-full h-full object-cover z-1"
           // src="/assets/zenitsu-swordsmanship.1920x1080.mp4"
@@ -55,7 +55,14 @@ const SplashScreen = () => {
           onCanPlay={() => console.log("Video can play")}
           preload="auto"
         />
-      )}
+      )} */}
+
+      <img
+        className="absolute inset-0 w-full h-full object-cover z-1"
+        src="https://images.pexels.com/photos/1480690/pexels-photo-1480690.jpeg"
+        alt="background"
+        srcset=""
+      />
 
       {/* Overlay content */}
       <div className="relative z-10 flex items-center justify-center h-full text-white">
