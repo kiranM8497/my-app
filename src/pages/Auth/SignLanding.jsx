@@ -24,24 +24,27 @@ const SignLanding = () => {
   }
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+    <div className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       {/* === Background Layer === */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url('https://images.pexels.com/photos/5380665/pexels-photo-5380665.jpeg')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+      <div className="absolute inset-0 z-0">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          // src="https://motionbgs.com/media/7474/narutos-restful-thoughts.960x540.mp4"
+          src="https://motionbgs.com/media/153/sasuke.960x540.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video>
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* === Foreground Content === */}
-      <div className="relative z-30 w-full max-w-md mx-auto flex items-center justify-center px-4 md:px-8">
-        <div className="w-full flex justify-center items-center py-12">
+      <div className="relative z-30 w-full overflow-y-hidden flex items-center justify-center px-4 md:px-8">
+        <div className="w-full max-w-sm flex justify-center items-center py-12">
           {isLogin ? (
             <SigninForm onSwitchToSignup={() => setIsLogin(false)} />
           ) : (
