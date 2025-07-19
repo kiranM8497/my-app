@@ -35,8 +35,8 @@ const SigninForm = ({ onSwitchToSignup }) => {
 
   return (
     <div
-      className=" shadow-input mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md rounded-none sm:rounded-md md:rounded-2xl
- bg-white p-4 sm:p-6 md:p-8 lg:p-10   dark:bg-black"
+      className=" shadow-input mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md rounded-none sm:rounded-md md:rounded-xl
+ bg-white p-4 sm:p-6 md:p-7 lg:p-10   dark:bg-black"
     >
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
         Login to Confession Corner
@@ -82,7 +82,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
           )}
         </LabelInputContainer>
 
-        <div className="text-right mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base">
+        <div className="text-right text-sm sm:text-base">
           <a
             href="#"
             className="text-sm text-indigo-500 hover:underline dark:text-indigo-400"
