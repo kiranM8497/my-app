@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 job.html
 code
+.env

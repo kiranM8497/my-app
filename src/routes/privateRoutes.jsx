@@ -8,7 +8,7 @@ export default [
     element: <PrivateRoute />,
     children: [
       {
-        path: "/home",
+        path: "profile",
         element: <ProfilePage />,
       },
     ],

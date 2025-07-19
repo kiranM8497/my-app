@@ -6,14 +6,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const publicPaths = ["/", "/auth"];
-  useEffect(() => {
-    // Skip auth check on public routes
-    if (publicPaths.includes(location.pathname)) {
-      setLoading(false);
-      return;
-    }
 
+  useEffect(() => {
     axiosInstance
       .get("/auth/me")
       .then((res) => {
@@ -25,10 +19,22 @@ export const AuthProvider = ({ children }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [location.pathname]);
+  }, []);
+
+  const logout = async () => {
+    try {
+      await axiosInstance.post("/logout");
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setUser(null);
+      // Force navigation to auth page
+      window.location.href = "/auth";
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

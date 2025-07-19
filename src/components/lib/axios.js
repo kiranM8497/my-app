@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:2000/api", // use env or fallback
+  baseURL: "http://localhost:2000/api", // use env or fallback
   headers: {
     "Content-Type": "application/json",
   },

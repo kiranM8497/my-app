@@ -1,44 +1,47 @@
 import SignupFormDemo from "./SignupFormDemo";
 import React from "react";
-import { Boxes } from "../../components/ui/background-boxes";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import SigninForm from "./SignInForm";
 import GlitchyLoading from "../../components/ui/glitchyLoading";
-// Lazy load only these two
-// const SigninForm = React.lazy(() => import("./SignInForm"));
-// const SignupFormDemo = React.lazy(() => import("./SignupFormDemo"));
+
 const SignLanding = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true); // toggle between login/signup
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 0);
-  //   return () => clearTimeout(timer);
-  // }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <GlitchyLoading />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div>
+        <GlitchyLoading />
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen w-full bg-slate-900 flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
       {/* === Background Layer === */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="h-full w-full relative">
-          <Boxes />
-          <div className="absolute inset-0 w-full h-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
-        </div>
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url('https://images.pexels.com/photos/5380665/pexels-photo-5380665.jpeg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* === Foreground Content === */}
-      <div className="relative z-30 w-1/2 max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
-        <div className="w-full md:w-full flex justify-center items-center py-12">
+      <div className="relative z-30 w-full max-w-md mx-auto flex items-center justify-center px-4 md:px-8">
+        <div className="w-full flex justify-center items-center py-12">
           {isLogin ? (
             <SigninForm onSwitchToSignup={() => setIsLogin(false)} />
           ) : (

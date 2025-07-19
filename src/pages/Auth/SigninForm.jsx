@@ -25,7 +25,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
 
       if (response.data?.user) {
         setUser(response.data.user); // 👈 updating context
-        navigate("/home"); // 👈 redirecting
+        navigate("/profile"); // 👈 redirecting
       }
     } catch (error) {
       console.error(error);
@@ -51,6 +51,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
           <Input
             id="email"
             type="email"
+            autoComplete="current-username"
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -71,6 +72,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
           <Input
             id="password"
             type="password"
+            autoComplete="current-password"
             {...register("password", {
               required: "Password is required",
             })}

@@ -27,7 +27,7 @@ function SignupFormDemo({ onSwitchToLogin }) {
       console.log(response);
       if (response.data?.user) {
         setUser(response.data.user); // 👈 updating context
-        navigate("/home"); // 👈 redirecting
+        navigate("/profile"); // 👈 redirecting
       }
     } catch (error) {
       console.error(error);

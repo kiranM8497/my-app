@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import axiosInstance from "../components/lib/axios";
 
 const ProfilePage = () => {
   const [activeOption, setActiveOption] = useState("Dashboard");
-
+  const { user, loading, setUser } = useAuth();
   const navigationOptions = [
     { id: "dashboard", icon: "📊", text: "Dashboard" },
     { id: "confessions", icon: "📝", text: "My Confessions" },
@@ -72,7 +75,21 @@ const ProfilePage = () => {
     console.log(`Opening ${actionType}...`);
     // Add your action logic here
   };
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post("/logout");
+
+      // Clear local user state
+      setUser(null);
+
+      // Redirect to login
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-gray-300 font-sans overflow-x-hidden relative">
       {/* Background Effects */}
@@ -108,6 +125,7 @@ const ProfilePage = () => {
                 you.
               </div>
             </div>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         </div>
 
