@@ -85,7 +85,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
         <div className="text-right text-sm sm:text-base">
           <a
             href="#"
-            className="text-sm text-indigo-500 hover:underline dark:text-indigo-400"
+            className="text-sm text-black-500 hover:underline dark:text-indigo-400"
           >
             Forgot password?
           </a>
