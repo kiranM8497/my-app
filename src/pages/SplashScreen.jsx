@@ -17,7 +17,7 @@ const SplashScreen = () => {
       // setTimeout(() => {
       //   navigate("/auth", { replace: true });
       // }, 1000); // 1 second transition duration
-    }, 4000); // Start transition 1 second earlier
+    }, 1500); // Start transition 1 second earlier
 
     return () => clearTimeout(timer);
   }, [navigate]);

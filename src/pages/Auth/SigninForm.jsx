@@ -9,7 +9,7 @@ import OAuthSection from "./OAuthSection";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export const SigninForm = ({ onSwitchToSignup }) => {
+const SigninForm = ({ onSwitchToSignup }) => {
   const {
     register,
     handleSubmit,
@@ -128,3 +128,5 @@ const LabelInputContainer = ({ children, className }) => (
     {children}
   </div>
 );
+
+export default SigninForm;
