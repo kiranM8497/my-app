@@ -43,7 +43,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
       </h2>
 
       <form
-        className="my-8 sm:my-12 md:my-14 "
+        className="my-6 sm:my-12 md:my-14 "
         onSubmit={handleSubmit(onSubmit)}
       >
         <LabelInputContainer className="mb-4 sm:mb-5 md:mb-6">
@@ -99,12 +99,12 @@ const SigninForm = ({ onSwitchToSignup }) => {
           <BottomGradient />
         </button>
 
-        <div className="my-6 sm:my-8 md:my-10 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+        <div className="my-2 sm:my-6 md:my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
         <OAuthSection />
       </form>
 
-      <p className="mt-4 text-sm text-center text-neutral-600 dark:text-neutral-400">
+      <p className="mt-2  text-sm text-center text-neutral-600 dark:text-neutral-400">
         Don&apos;t have an account?{" "}
         <button
           type="button"
