@@ -1,25 +1,31 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import axiosInstance from "../components/lib/axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const publicPaths = ["/", "/auth"];
   useEffect(() => {
-    fetch("http://localhost:2000/auth/me", {
-      credentials: "include",
-    })
+    // Skip auth check on public routes
+    if (publicPaths.includes(location.pathname)) {
+      setLoading(false);
+      return;
+    }
+
+    axiosInstance
+      .get("/auth/me")
       .then((res) => {
-        if (!res.ok) throw new Error("Not logged in");
-        return res.json();
+        setUser(res.data.user);
       })
-      .then((data) => {
-        setUser(data.user);
+      .catch(() => {
+        setUser(null);
       })
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [location.pathname]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loading }}>

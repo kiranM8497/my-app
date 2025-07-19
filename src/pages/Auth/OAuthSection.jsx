@@ -1,9 +1,10 @@
 import React from "react";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandFacebook,
-} from "@tabler/icons-react";
+// import {
+//   IconBrandGithub,
+//   IconBrandGoogle,
+//   IconBrandFacebook,
+// } from "@tabler/icons-react";
+import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 
 const OAuthButton = ({ Icon, onClick }) => (
   <button
@@ -25,11 +26,20 @@ const OAuthSection = () => {
   return (
     <div className="mt-6 sm:mt-8 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8">
       {/* <OAuthButton Icon={IconBrandGithub} /> */}
-      <OAuthButton
+      <FaGoogle
+        className="h-6 w-6 text-neutral-800 dark:text-neutral-300 hover:scale-110 transition-transform"
+        onClick={() => alert("Google not implemented yet")}
+      />
+
+      <FaFacebook
+        className="h-6 w-6 text-neutral-800 dark:text-neutral-300 hover:scale-110 transition-transform"
+        onClick={handleFacebookLogin}
+      />
+      {/* <OAuthButton
         Icon={IconBrandGoogle}
         onClick={() => alert("Google not implemented yet")}
       />
-      <OAuthButton Icon={IconBrandFacebook} onClick={handleFacebookLogin} />
+      <OAuthButton Icon={IconBrandFacebook} onClick={handleFacebookLogin} /> */}
     </div>
   );
 };

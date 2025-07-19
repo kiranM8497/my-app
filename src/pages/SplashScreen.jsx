@@ -61,7 +61,6 @@ const SplashScreen = () => {
         className="absolute inset-0 w-full h-full object-cover z-1"
         src="https://images.pexels.com/photos/1480690/pexels-photo-1480690.jpeg"
         alt="background"
-        srcset=""
       />
 
       {/* Overlay content */}

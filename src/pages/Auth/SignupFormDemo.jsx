@@ -2,12 +2,7 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandOnlyfans,
-  IconBrandFacebook,
-} from "@tabler/icons-react";
+
 import { cn } from "../../components/lib/utils";
 import axiosInstance from "../../components/lib/axios";
 import OAuthSection from "./OAuthSection";
