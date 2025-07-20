@@ -1,5 +1,6 @@
 import Home from "../pages/Home";
 import PrivateRoute from "../components/PrivateRoute";
+import ProfilePage from "../pages/Profile";
 
 export default [
   {
@@ -7,8 +8,8 @@ export default [
     element: <PrivateRoute />,
     children: [
       {
-        path: "/home",
-        element: <Home />,
+        path: "profile",
+        element: <ProfilePage />,
       },
     ],
   },

@@ -1,46 +1,71 @@
-import { SignupFormDemo } from "./SignupFormDemo";
-
-import { cn } from "../../components/lib/utils";
-import { Boxes } from "../../components/ui/background-boxes";
+import SignupFormDemo from "./SignupFormDemo";
+import React from "react";
 import { useEffect, useState } from "react";
-import { SigninForm } from "./SignInForm";
+import SigninForm from "./SignInForm";
+import GlitchyLoading from "../../components/ui/glitchyLoading";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignLanding = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true); // toggle between login/signup
+  const { user, loading, initialized } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 100);
+    }, 0);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
+  // Redirect if user is already authenticated
+  useEffect(() => {
+    if (initialized && !loading && user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, loading, initialized, navigate]);
+
+  // Show loading while auth context initializes or component loads
+  if (isLoading || !initialized) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-gray-900">
-        <div className="loader">
-          <div data-glitch="Loading..." className="glitch">
-            Loading...
-          </div>
-        </div>
+      <div>
+        <GlitchyLoading />
+      </div>
+    );
+  }
+
+  // Don't render auth forms if user is authenticated (during redirect)
+  if (user) {
+    return (
+      <div>
+        <GlitchyLoading />
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen w-full bg-slate-900 flex items-center justify-center overflow-hidden">
+    <div className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       {/* === Background Layer === */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="h-full w-full relative">
-          <Boxes />
-          <div className="absolute inset-0 w-full h-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
-        </div>
+      <div className="absolute inset-0 z-0">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          // src="https://motionbgs.com/media/7474/narutos-restful-thoughts.960x540.mp4"
+          src="https://motionbgs.com/media/153/sasuke.960x540.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video>
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* === Foreground Content === */}
-      <div className="relative z-30 w-1/2 max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
-        <div className="w-full md:w-full flex justify-center items-center py-12">
+      <div className="relative z-30 w-full overflow-y-hidden flex items-center justify-center px-4 md:px-8">
+        <div className="w-full max-w-sm flex justify-center items-center py-12">
           {isLogin ? (
             <SigninForm onSwitchToSignup={() => setIsLogin(false)} />
           ) : (

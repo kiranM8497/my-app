@@ -1,21 +1,25 @@
-// src/components/PrivateRoute.jsx
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Updated import path
+import GlitchyLoading from "./ui/glitchyLoading";
 
 const PrivateRoute = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, initialized } = useAuth();
+  const location = useLocation();
 
-  if (loading) {
+  // Show loading while auth context is initializing or checking auth status
+  if (!initialized || loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-xl text-gray-600">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">
+          <GlitchyLoading />
+        </div>
       </div>
     );
   }
 
   if (!user) {
-    return <Navigate to="/auth" replace />;
+    // Redirect to auth page, preserving the attempted location
+    return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
   return <Outlet />;

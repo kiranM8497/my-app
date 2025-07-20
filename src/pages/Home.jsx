@@ -23,10 +23,10 @@ const Home = () => {
 
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/auth" />;
-
+  console.log(user);
   return (
     <div>
-      <h1>Welcome, {user.name || user.firstname}!</h1>
+      <h1>Welcome, {user.firstname || user.name}!</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
