@@ -1,12 +1,13 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // Updated import path
 import GlitchyLoading from "./ui/glitchyLoading";
 
 const PrivateRoute = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, initialized } = useAuth();
   const location = useLocation();
 
-  if (loading) {
+  // Show loading while auth context is initializing or checking auth status
+  if (!initialized || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-lg">

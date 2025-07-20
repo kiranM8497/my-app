@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -6,7 +6,7 @@ import { cn } from "../../components/lib/utils";
 
 import axiosInstance from "../../components/lib/axios";
 import OAuthSection from "./OAuthSection";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext"; // Updated import path
 import { useNavigate } from "react-router-dom";
 
 const SigninForm = ({ onSwitchToSignup }) => {
@@ -15,21 +15,40 @@ const SigninForm = ({ onSwitchToSignup }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { checkAuthStatus } = useAuth(); // Use checkAuthStatus instead of setUser
+
   const onSubmit = async (data) => {
     console.log("Login submitted", data);
+    setIsLoading(true);
+    setApiError("");
+
     try {
       const response = await axiosInstance.post("/signin", data);
-      // console.log(response.data.user);
 
-      if (response.data?.user) {
-        setUser(response.data.user); // 👈 updating context
-        navigate("/profile"); // 👈 redirecting
+      // Store token if your API returns one
+      if (response.data?.token) {
+        localStorage.setItem("token", response.data.token);
       }
+
+      // Now check auth status to get user data and update context
+      await checkAuthStatus();
+
+      // Navigate to home (or profile) after successful login
+      navigate("/", { replace: true }); // Changed from "/profile" to "/" to match your router
     } catch (error) {
-      console.error(error);
-      alert("temporary messsge: password or email incorrect");
+      console.error("Login failed:", error);
+      setApiError(
+        error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Password or email incorrect"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,12 +65,20 @@ const SigninForm = ({ onSwitchToSignup }) => {
         className="my-6 sm:my-12 md:my-14 "
         onSubmit={handleSubmit(onSubmit)}
       >
+        {/* API Error Message */}
+        {apiError && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded dark:bg-red-900/20 dark:border-red-500 dark:text-red-400">
+            {apiError}
+          </div>
+        )}
+
         <LabelInputContainer className="mb-4 sm:mb-5 md:mb-6">
           <Label htmlFor="email">Email Address</Label>
           <Input
             id="email"
             type="email"
             autoComplete="current-username"
+            disabled={isLoading}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -73,6 +100,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
             id="password"
             type="password"
             autoComplete="current-password"
+            disabled={isLoading}
             {...register("password", {
               required: "Password is required",
             })}
@@ -92,10 +120,11 @@ const SigninForm = ({ onSwitchToSignup }) => {
         </div>
 
         <button
-          className="group/btn relative block h-10 sm:h-12 md:h-14 w-full text-sm sm:text-base md:text-lg rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow dark:bg-zinc-800"
+          className="group/btn relative block h-10 sm:h-12 md:h-14 w-full text-sm sm:text-base md:text-lg rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow dark:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
           type="submit"
+          disabled={isLoading}
         >
-          Sign in &rarr;
+          {isLoading ? "Signing in..." : "Sign in"} &rarr;
           <BottomGradient />
         </button>
 

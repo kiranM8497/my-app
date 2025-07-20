@@ -3,10 +3,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import SigninForm from "./SignInForm";
 import GlitchyLoading from "../../components/ui/glitchyLoading";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignLanding = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true); // toggle between login/signup
+  const { user, loading, initialized } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,7 +19,24 @@ const SignLanding = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
+  // Redirect if user is already authenticated
+  useEffect(() => {
+    if (initialized && !loading && user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, loading, initialized, navigate]);
+
+  // Show loading while auth context initializes or component loads
+  if (isLoading || !initialized) {
+    return (
+      <div>
+        <GlitchyLoading />
+      </div>
+    );
+  }
+
+  // Don't render auth forms if user is authenticated (during redirect)
+  if (user) {
     return (
       <div>
         <GlitchyLoading />
