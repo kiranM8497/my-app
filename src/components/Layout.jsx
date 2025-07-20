@@ -1,34 +1,41 @@
-import React, { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
+import { useState } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import axiosInstance from "./lib/axios";
+import { useAuth } from "../context/AuthContext";
 
 const Layout = () => {
+  const { user, loading, setUser } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleCollapse = () => setSidebarCollapsed(!sidebarCollapsed);
 
-  // Function to get page title based on current route
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post("/logout");
+
+      // Clear local user state
+      setUser(null);
+
+      // Redirect to login
+      navigate("/auth");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+
   const getPageTitle = () => {
     const path = location.pathname;
     switch (path) {
       case "/":
-        return "Dashboard";
+        return "Home";
       case "/profile":
         return "Profile";
-      case "/messages":
-        return "Messages";
-      case "/documents":
-        return "Documents";
-      case "/analytics":
-        return "Analytics";
-      case "/settings":
-        return "Settings";
-      default:
-        return "Dashboard";
     }
   };
 
@@ -60,9 +67,7 @@ const Layout = () => {
               {getPageTitle()}
             </h2>
             <div className="flex items-center gap-2">
-              <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                <AiOutlineSetting size={20} />
-              </button>
+              <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
         </header>

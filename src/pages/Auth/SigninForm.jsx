@@ -29,7 +29,8 @@ const SigninForm = ({ onSwitchToSignup }) => {
 
     try {
       const response = await axiosInstance.post("/signin", data);
-      console.log(response.data.user);
+      console.log("response",response);
+      
       setUser(response.data.user);
       // Store token if your API returns one
       // if (response.data?.token) {

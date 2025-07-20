@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
       const res = await axiosInstance.get("/auth/me");
       console.log(res);
       // setUser(res.data.user);
-      return res.data.user;
+      // return res.data.user;
     } catch (error) {
       console.error("Auth check failed:", error);
       setUser(null);

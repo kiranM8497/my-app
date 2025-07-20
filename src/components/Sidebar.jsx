@@ -1,27 +1,18 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
-  AiOutlineHome,
-  AiOutlineUser,
-  AiOutlineSetting,
-  AiOutlineMail,
-  AiOutlineFileText,
-  AiOutlineBarChart,
   AiOutlineClose,
+  AiOutlineHome,
   AiOutlineLeft,
   AiOutlineRight,
+  AiOutlineUser
 } from "react-icons/ai";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) => {
   const location = useLocation();
 
   const menuItems = [
-    { icon: AiOutlineHome, label: "Dashboard", path: "/" },
+    { icon: AiOutlineHome, label: "Home", path: "/" },
     { icon: AiOutlineUser, label: "Profile", path: "/profile" },
-    { icon: AiOutlineMail, label: "Messages", path: "/messages" },
-    { icon: AiOutlineFileText, label: "Documents", path: "/documents" },
-    { icon: AiOutlineBarChart, label: "Analytics", path: "/analytics" },
-    { icon: AiOutlineSetting, label: "Settings", path: "/settings" },
   ];
 
   return (
@@ -37,20 +28,24 @@ const Sidebar = ({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed top-0 left-0 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700
-        transition-all duration-300 ease-in-out z-50
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        ${isCollapsed ? "w-20" : "w-64"}
-      `}
+    fixed top-0 left-0 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700
+    transition-[width,transform] duration-80 ease-in-out z-50
+    ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+    ${isCollapsed ? "w-20" : "w-64"}
+  `}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             {!isCollapsed && (
-              <h1 className="text-xl font-bold text-gray-800 dark:text-white">
-                Aceternity
+              <h1
+                className="text-xl font-bold text-gray-800 dark:text-white"
+                style={{ fontFamily: "Dancing Script, cursive" }}
+              >
+                Confession Corner
               </h1>
             )}
+
             <button
               onClick={toggleCollapse}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors hidden lg:flex"
