@@ -6,7 +6,7 @@ import { cn } from "../../components/lib/utils";
 
 import axiosInstance from "../../components/lib/axios";
 import OAuthSection from "./OAuthSection";
-import { useAuth } from "../../contexts/AuthContext"; // Updated import path
+import { useAuth } from "../../context/AuthContext"; // Updated import path
 import { useNavigate } from "react-router-dom";
 
 const SigninForm = ({ onSwitchToSignup }) => {

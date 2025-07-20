@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import SigninForm from "./SignInForm";
 import GlitchyLoading from "../../components/ui/glitchyLoading";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const SignLanding = () => {
