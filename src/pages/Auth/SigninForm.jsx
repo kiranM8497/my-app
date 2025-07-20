@@ -20,7 +20,7 @@ const SigninForm = ({ onSwitchToSignup }) => {
   const [apiError, setApiError] = useState("");
 
   const navigate = useNavigate();
-  const { checkAuthStatus } = useAuth(); // Use checkAuthStatus instead of setUser
+  const { checkAuthStatus, setUser } = useAuth(); // Use checkAuthStatus instead of setUser
 
   const onSubmit = async (data) => {
     console.log("Login submitted", data);
@@ -29,11 +29,12 @@ const SigninForm = ({ onSwitchToSignup }) => {
 
     try {
       const response = await axiosInstance.post("/signin", data);
-
+      console.log(response.data.user);
+      setUser(response.data.user);
       // Store token if your API returns one
-      if (response.data?.token) {
-        localStorage.setItem("token", response.data.token);
-      }
+      // if (response.data?.token) {
+      //   localStorage.setItem("token", response.data.token);
+      // }
 
       // Now check auth status to get user data and update context
       await checkAuthStatus();

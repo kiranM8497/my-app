@@ -1,6 +1,6 @@
 // src/routes/router.jsx
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/Layout"; 
+import Layout from "../components/Layout";
 import PrivateRoute from "../components/PrivateRoute";
 import SignLanding from "../pages/Auth/SignLanding";
 import Home from "../pages/Home";

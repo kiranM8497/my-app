@@ -3,30 +3,16 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:2000/api",
-  withCredentials: true,
+  withCredentials: true, // Important: This sends HttpOnly cookies automatically
 });
 
-// Request interceptor to add token to all requests
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor to handle token expiration
+// Response interceptor to handle authentication errors
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
-      localStorage.removeItem("token");
+      // Authentication failed - clear local indicators
+      localStorage.removeItem("isLoggedIn");
       // Redirect to auth page
       window.location.href = "/auth";
     }
