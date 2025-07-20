@@ -9,34 +9,41 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
-  // Check if user has a token (or any auth indicator)
-  const hasAuthToken = () => {
-    // Assuming you store token in localStorage or cookie
-    // Adjust this based on your token storage method
-    return (
-      localStorage.getItem("token") || document.cookie.includes("auth_token")
-    );
+  // Routes where we don't need to check authentication
+  const isAuthRoute = () => {
+    const path = window.location.pathname;
+    const authRoutes = ["/auth", "/login", "/register", "/forgot-password"];
+    return authRoutes.some((route) => path.startsWith(route));
   };
 
   useEffect(() => {
     const initializeAuth = async () => {
-      // Only check /me if user might be authenticated
-      if (hasAuthToken()) {
-        try {
-          const res = await axiosInstance.get("/auth/me");
-          setUser(res.data.user);
-        } catch (error) {
-          console.error("Auth check failed:", error);
-          setUser(null);
-          // Clear invalid token
-          localStorage.removeItem("token");
-        }
-      } else {
+      // Skip auth check for auth-related routes
+      if (isAuthRoute()) {
+        console.log("inside if");
         setUser(null);
+        setLoading(false);
+        setInitialized(true);
+        return;
       }
 
-      setLoading(false);
-      setInitialized(true);
+      try {
+        // For other routes, check authentication status
+        const res = await axiosInstance.get("/auth/me");
+
+        setUser(res.data.user);
+      } catch (error) {
+        // If the request fails (401/403), user is not authenticated
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          setUser(null);
+        } else {
+          console.error("Auth check failed:", error);
+          setUser(null);
+        }
+      } finally {
+        setLoading(false);
+        setInitialized(true);
+      }
     };
 
     initializeAuth();
@@ -47,7 +54,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axiosInstance.get("/auth/me");
-      setUser(res.data.user);
+      console.log(res);
+      // setUser(res.data.user);
       return res.data.user;
     } catch (error) {
       console.error("Auth check failed:", error);
@@ -60,12 +68,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axiosInstance.post("/logout");
+      // Make sure to call the correct logout endpoint
+      // This should clear the httpOnly cookie on the server
+      await axiosInstance.post("/auth/logout");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
       setUser(null);
-      localStorage.removeItem("token"); // Clear token
+      // Redirect after clearing user state
       window.location.href = "/auth";
     }
   };
